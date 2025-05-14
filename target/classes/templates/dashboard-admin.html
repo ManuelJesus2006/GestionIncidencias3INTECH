@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Administrador</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        ul { list-style: disc; margin-left: 20px; }
+        li { margin-bottom: 10px; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+         .logout { margin-top: 30px; }
+    </style>
+</head>
+<body>
+<h1>Dashboard de Administrador</h1>
+<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Usuario'}">Usuario</span>!</p>
+<p th:unless="${usuario}">Bienvenido al Dashboard de Administrador.</p>
+
+<h2>Funcionalidades Disponibles:</h2>
+<ul>
+    <li><a href="/admin/gestion-usuarios/tipo">Alta/baja/modificación de usuarios (clientes/técnicos)</a></li>
+    <li><a href="/admin/asignar-incidencia">Asignación manual de incidencias a técnicos</a></li>
+    <li><a href="/admin/ver-tickets">Visualización de todos los tickets</a></li>
+</ul>
+
+<p class="logout"><a href="/logout">Cerrar Sesión</a></p>
+</body>
+</html>
