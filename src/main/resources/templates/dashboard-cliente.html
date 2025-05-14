@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Panel del Cliente</title>
+    <title>Dashboard Cliente</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2 { color: #333; }
@@ -14,15 +14,16 @@
     </style>
 </head>
 <body>
-<h1>Bienvenido Cliente</h1>
-<p th:if="${usuario}">Hola, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Cliente'}">Cliente</span>!</p>
-<p th:unless="${usuario}">Bienvenido al panel de cliente.</p>
+<h1>Dashboard de Cliente</h1>
+<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.correo != null ? usuario.correo : 'Usuario'}">Usuario</span>!</p>
+<p th:unless="${usuario}">Bienvenido al Dashboard de Cliente.</p>
 
-<h2>Opciones disponibles:</h2>
+
+<h2>Funcionalidades Disponibles:</h2>
 <ul>
-    <li><a href="/cliente/crear-incidencia">Crear una nueva incidencia</a></li>
-    <li><a href="/cliente/mis-incidencias">Ver mis incidencias</a></li>
-    <li><a href="/cliente/perfil">Editar perfil</a></li>
+    <li><a href="/cliente/nueva-incidencia">Crear nueva incidencia</a></li>
+    <li><a href="/cliente/historial-incidencias">Consultar historial de incidencias propias</a></li>
+    <li><a href="/cliente/consultar-incidencia">Consultar el estado de una incidencia concreta</a></li>
 </ul>
 
 <p class="logout"><a href="/logout">Cerrar Sesión</a></p>

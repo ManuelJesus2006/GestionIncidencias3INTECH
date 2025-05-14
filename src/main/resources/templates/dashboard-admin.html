@@ -15,12 +15,12 @@
 </head>
 <body>
 <h1>Dashboard de Administrador</h1>
-<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Usuario'}">Usuario</span>!</p>
+<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.correo != null ? usuario.correo : 'Usuario'}">Usuario</span>!</p>
 <p th:unless="${usuario}">Bienvenido al Dashboard de Administrador.</p>
 
 <h2>Funcionalidades Disponibles:</h2>
 <ul>
-    <li><a href="/admin/gestion-usuarios/tipo">Alta/baja/modificación de usuarios (clientes/técnicos)</a></li>
+    <li><a href="/admin/gestion-usuarios">Alta/baja/modificación de usuarios (clientes/técnicos)</a></li>
     <li><a href="/admin/asignar-incidencia">Asignación manual de incidencias a técnicos</a></li>
     <li><a href="/admin/ver-tickets">Visualización de todos los tickets</a></li>
 </ul>

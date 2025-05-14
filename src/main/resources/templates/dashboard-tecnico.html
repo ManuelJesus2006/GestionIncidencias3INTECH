@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Panel del Técnico</title>
+    <title>Dashboard Técnico</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2 { color: #333; }
@@ -10,19 +10,19 @@
         li { margin-bottom: 10px; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .logout { margin-top: 30px; }
+         .logout { margin-top: 30px; }
     </style>
 </head>
 <body>
-<h1>Panel del Técnico</h1>
-<p th:if="${usuario}">Hola, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Técnico'}">Técnico</span>!</p>
-<p th:unless="${usuario}">Bienvenido al panel de técnico.</p>
+<h1>Dashboard de Técnico</h1>
+<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.correo != null ? usuario.correo : 'Usuario'}">Usuario</span>!</p>
+<p th:unless="${usuario}">Bienvenido al Dashboard de Técnico.</p>
 
-<h2>Opciones disponibles:</h2>
+<h2>Funcionalidades Disponibles:</h2>
 <ul>
     <li><a href="/tecnico/incidencias-asignadas">Ver incidencias asignadas</a></li>
-    <li><a href="/tecnico/resolver-incidencia">Resolver una incidencia</a></li>
-    <li><a href="/tecnico/perfil">Editar perfil</a></li>
+    <li><a href="/tecnico/marcar-resuelta">Marcar la incidencia como resuelta (añadir descripción de resolución)</a></li>
+    <li><a href="/tecnico/cambiar-estado">Cambiar estado (pendiente/en curso/resuelta)</a></li>
 </ul>
 
 <p class="logout"><a href="/logout">Cerrar Sesión</a></p>

@@ -30,74 +30,111 @@ public class Controlador {
     }
 
     @GetMapping("/")
-    public String mostrarLogin() {
+    public String mostrarPaginaLogin(HttpSession session) {
+        if (session.getAttribute("usuarioAutenticado") != null) {
+            return "redirect:/inicio";
+        }
         return "login";
     }
 
     @PostMapping("/login")
-    public String procesarLogin(
+    public String iniciarSesionDesdeWeb(
             @RequestParam("correo") String correo,
             @RequestParam("clave") String clave,
-            HttpSession session,
-            Model model
-    ) {
-        Object usuario = authService.autenticar(correo, clave);
+            Model model,
+            HttpSession session) {
 
-        if (usuario != null) {
-            session.setAttribute("usuario", usuario);
+        Object usuarioAutenticado = authService.autenticar(correo, clave);
+        String userRole = null;
 
-            if (usuario instanceof Cliente) {
-                session.setAttribute("tipo", "cliente");
-            } else if (usuario instanceof Tecnico) {
-                session.setAttribute("tipo", "tecnico");
-            } else if (usuario instanceof Admin) {
-                session.setAttribute("tipo", "admin");
+        if (usuarioAutenticado != null) {
+            if (usuarioAutenticado instanceof Cliente) {
+                userRole = "CLIENTE";
+            } else if (usuarioAutenticado instanceof Tecnico) {
+                userRole = "TECNICO";
+            } else if (usuarioAutenticado instanceof Admin) {
+                userRole = "ADMIN";
             }
 
-            return "redirect:/inicio";
+            if (userRole != null) {
+                session.setAttribute("usuarioAutenticado", usuarioAutenticado);
+                session.setAttribute("userRole", userRole);
+                return "redirect:/inicio";
+            }
         }
 
-        model.addAttribute("error", "Correo o clave incorrectos");
+        model.addAttribute("error", "Correo o contraseña incorrectos.");
         return "login";
     }
 
     @GetMapping("/inicio")
     public String mostrarInicio(HttpSession session, Model model) {
-        Object usuario = session.getAttribute("usuario");
-        String tipo = (String) session.getAttribute("tipo");
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
 
-        if (usuario == null || tipo == null) {
-            return "redirect:/login";
+        if (usuarioAutenticado == null || userRole == null) {
+            return "redirect:/";
         }
 
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("tipo", tipo);
-        return "inicio"; // inicio.html, el contenido se adapta según el tipo
+        model.addAttribute("usuario", usuarioAutenticado);
+        model.addAttribute("userRole", userRole);
+
+        switch (userRole) {
+            case "CLIENTE":
+                return "dashboard-cliente";
+            case "TECNICO":
+                return "dashboard-tecnico";
+            case "ADMIN":
+                return "dashboard-admin";
+            default:
+                return "redirect:/";
+        }
     }
 
+    @GetMapping("/logout")
+    public String cerrarSesion(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 
-    @PostMapping("/admin/gestion-usuarios/registrar")
+    @GetMapping("/admin/gestion-usuarios")
+    public String mostrarMenuUsuarios(Model model) {
+        return "admin-eleccion-tipo";
+    }
+
+    @PostMapping("/admin/gestion-usuarios/tipo")
+    public String mostrarFormularioDeRegistro(
+            @RequestParam("tipo") String tipo,
+            Model model
+    ) {
+        if (!tipo.equals("cliente") && !tipo.equals("tecnico")) {
+            model.addAttribute("error", "Tipo de usuario no válido");
+            return "admin-eleccion-tipo";
+        }
+
+        model.addAttribute("tipo", tipo); // Pasamos el tipo al siguiente formulario
+        return "admin-introduccion-datos";
+    }
+
+    @PostMapping("/admin/gestion-usuarios/registro")
     public String registrarUsuario(
-            HttpSession session,
-            Model model,
             @RequestParam("tipo") String tipo,
             @RequestParam("nombre") String nombre,
             @RequestParam("correo") String correo,
-            @RequestParam("clave") String clave
+            @RequestParam("clave") String clave,
+            Model model
     ) {
         if (tipo.equals("tecnico")) {
-            // Lógica para guardar un técnico
-            // Ejemplo: tecnicoService.guardar(nombre, correo, clave);
+            tecnicoService.guardar(nombre, correo, clave);
         } else if (tipo.equals("cliente")) {
-            // Lógica para guardar un cliente
-            // Ejemplo: clienteService.guardar(nombre, correo, clave);
+            clienteService.guardar(nombre, correo, clave);
         } else {
             model.addAttribute("error", "Tipo de usuario no válido");
             return "menu-usuarios";
         }
 
         model.addAttribute("mensaje", "Usuario registrado correctamente");
-        return "resultado"; // La vista que muestra el resultado del registro
+        return "registro-exitoso";
     }
 
 
