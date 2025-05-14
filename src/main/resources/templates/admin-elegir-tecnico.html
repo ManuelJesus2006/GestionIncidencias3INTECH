@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Asignar Técnico a Incidencia ID: <span th:text="${incidencia.id}"></span></title>
+</head>
+<body>
+<h1>Asignar Técnico a Incidencia</h1>
+
+<div>
+  <p><strong>ID Incidencia:</strong> <span th:text="${incidencia.id}"></span></p>
+  <p><strong>Descripción:</strong> <span th:text="${incidencia.descripcion}"></span></p>
+  <p><strong>Estado:</strong> <span th:text="${incidencia.estado}"></span></p>
+</div>
+
+<hr>
+
+<p th:if="${errorAsignacion}" style="color: red;" th:text="${errorAsignacion}"></p>
+
+
+<form th:action="@{/admin/asignar-incidencia/elegirTecnico}" method="post">
+
+  <input type="hidden" name="incidenciaId" th:value="${incidencia.id}">
+
+  <label for="tecnicoSelect">Seleccionar Técnico:</label>
+  <select id="tecnicoSelect" name="tecnicoId">
+    <option value="">-- Seleccione un técnico --</option> <option th:each="tecnico : ${tecnicos}"
+                                                                  th:value="${tecnico.id}"
+                                                                  th:text="${tecnico.nombre}">
+    Nombre del Técnico
+  </option>
+  </select>
+
+  <br><br>
+
+  <button type="submit">Confirmar Asignación</button>
+</form>
+
+<br>
+<a href="@{/admin/asignar-incidencia}">Volver a la lista de Incidencias Pendientes</a>
+<br>
+<a href="@{/inicio}">Volver al Inicio</a>
+</body>
+</html>

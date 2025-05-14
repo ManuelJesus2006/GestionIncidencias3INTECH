@@ -1,0 +1,53 @@
+package DAO;
+
+import models.Incidencia;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class DAOIncidenciasSQL implements DAOIncidencia{
+    @Override
+    public ArrayList<Incidencia> readAll(DAOManager dao) {
+        ArrayList<Incidencia> lista = new ArrayList();
+        String sentencia = "select * from Incidencias";
+        try {
+            dao.open();
+            PreparedStatement ps = dao.getConn().prepareStatement(sentencia);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()) {
+                    Incidencia incidencia = new Incidencia(rs.getInt("id"),
+                            rs.getString("contenido"),
+                            rs.getInt("estado"),
+                            rs.getInt("id_cliente"),
+                            rs.getInt("id_tecnico"));
+                    lista.add(incidencia);
+                }
+                dao.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+
+    @Override
+    public boolean update(Incidencia incidencia, int id_tecnico, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "UPDATE `Incidencias` SET `id_tecnico` = '" + id_tecnico + "' "
+                    + "WHERE `Incidencias`.`id` = " + incidencia.getId();
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+}
