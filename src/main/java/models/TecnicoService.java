@@ -14,6 +14,7 @@ public class TecnicoService {
     }
 
     public void guardar(String nombre, String correo, String clave) {
+        daoTecnico.insert(new Tecnico(nombre, correo, clave), dao);
     }
 
     public ArrayList<Tecnico> getAllTecnicos() {

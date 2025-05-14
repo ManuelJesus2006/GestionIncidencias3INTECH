@@ -15,7 +15,7 @@
 </head>
 <body>
 <h1>Dashboard de Administrador</h1>
-<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.correo != null ? usuario.correo : 'Usuario'}">Usuario</span>!</p>
+<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Usuario'}">Usuario</span>!</p>
 <p th:unless="${usuario}">Bienvenido al Dashboard de Administrador.</p>
 
 <h2>Funcionalidades Disponibles:</h2>

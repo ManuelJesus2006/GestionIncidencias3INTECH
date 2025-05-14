@@ -36,15 +36,15 @@ public class DAOTecnicoSQL implements DAOTecnico {
         return lista;
     }
 
-    public boolean insert(Cliente cliente, DAOManager dao) {
+    public boolean insert(Tecnico tecnico, DAOManager dao) {
+
+    }
+
+    public boolean delete(Tecnico tecnico, DAOManager dao) {
         return false;
     }
 
-    public boolean delete(Cliente cliente, DAOManager dao) {
-        return false;
-    }
-
-    public boolean update(Cliente cliente, DAOManager dao) {
+    public boolean update(Tecnico tecnico, DAOManager dao) {
         return false;
     }
 }

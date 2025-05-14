@@ -7,9 +7,9 @@ import models.Tecnico;
 public interface DAOTecnico {
     ArrayList<Tecnico> readAll(DAOManager dao);
 
-    boolean insert(Cliente cliente, DAOManager dao);
+    boolean insert(Tecnico tecnico, DAOManager dao);
 
-    boolean delete(Cliente cliente, DAOManager dao);
+    boolean delete(Tecnico tecnico, DAOManager dao);
 
-    boolean update(Cliente cliente, DAOManager dao);
+    boolean update(Tecnico tecnico, DAOManager dao);
 }
