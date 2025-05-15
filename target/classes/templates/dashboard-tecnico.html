@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Técnico</title>
+    <title th:text="'Inicio - ' + ${usuario.nombre}">Inicio - Nombre de Usuario</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2 { color: #333; }

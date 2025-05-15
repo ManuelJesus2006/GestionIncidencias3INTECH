@@ -13,8 +13,8 @@ public class TecnicoService {
     public TecnicoService() {
     }
 
-    public void guardar(String nombre, String correo, String clave) {
-        daoTecnico.insert(new Tecnico(nombre, correo, clave), dao);
+    public void guardar(String correo, String clave, String nombre) {
+        daoTecnico.insert(new Tecnico(correo, clave, nombre), dao);
     }
 
     public ArrayList<Tecnico> getAllTecnicos() {

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Incidencia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Incluye padding y border en el ancho total */
+            min-height: 150px; /* Aumentamos la altura sugerida */
+        }
+         /* Estilos básicos para el botón */
+        button {
+            background-color: #007bff; /* Un color azul para el botón */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+        }
+        button:hover {
+            background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Reportar Nueva Incidencia</h1>
+
+    <p>Por favor, describe detalladamente la incidencia que deseas reportar en el campo de contenido:</p>
+
+    <form th:action="@{/cliente/nueva-incidencia}" method="post">
+
+        <div>
+            <label for="contenido">Contenido de la Incidencia:</label>
+            <textarea id="contenido" name="contenido" required></textarea>
+        </div>
+
+        <div>
+            <button type="submit">Enviar Incidencia</button>
+        </div>
+
+    </form>
+
+    <p><a href="/inicio">Cancelar y volver al inicio</a></p>
+
+</body>
+</html>

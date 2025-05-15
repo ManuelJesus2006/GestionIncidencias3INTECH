@@ -3,6 +3,7 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import models.Cliente;
 import models.Tecnico;
@@ -37,7 +38,17 @@ public class DAOTecnicoSQL implements DAOTecnico {
     }
 
     public boolean insert(Tecnico tecnico, DAOManager dao) {
-
+        try{
+           dao.open();
+           String sentencia = "INSERT INTO `Tecnico` (`id`, `correo`, `clave`, `nombre`) VALUES (" +
+                   "'" + tecnico.getId() + "', '" + tecnico.getCorreo() + "', '" + tecnico.getClave() + "', '" + tecnico.getNombre() + "')";
+           Statement stmt = dao.getConn().createStatement();
+           stmt.executeUpdate(sentencia);
+           dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     public boolean delete(Tecnico tecnico, DAOManager dao) {

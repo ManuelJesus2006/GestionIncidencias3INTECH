@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Incidencias</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Todas las Incidencias</h1>
+
+    <p>Aquí puedes ver una lista de todas las incidencias reportadas.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Contenido</th>
+                <th>Estado</th>
+                <th>Fecha Creación</th> <th>Reportada por Cliente</th>
+                <th>Técnico Asignado</th>
+                </tr>
+        </thead>
+        <tbody>
+            <tr th:each="incidencia : ${incidencias}">
+                <td th:text="${incidencia.id}">1</td>
+                <td th:text="${incidencia.contenido}">Contenido de la incidencia</td>
+
+                <td>
+                    <span th:switch="${incidencia.estado}">
+                        <span th:case="0">Abierta</span>
+                        <span th:case="1">En Proceso</span>
+                        <span th:case="2">Cerrada</span>
+                        <span th:case="*">Estado Desconocido</span>
+                    </span>
+                </td>
+
+                <td th:text="${incidencia.fechaCreacion != null ? #dates.format(incidencia.fechaCreacion, 'dd-MM-yyyy HH:mm') : 'N/A'}">15-05-2025 18:30</td>
+
+                <td th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</td>
+                <td th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico</td>
+
+            </tr>
+            <tr th:if="${#lists.isEmpty(incidencias)}">
+                <td colspan="6">No hay incidencias reportadas en este momento.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a href="/inicio">Volver al inicio</a></p>
+
+</body>
+</html>

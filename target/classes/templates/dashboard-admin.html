@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Administrador</title>
+    <title th:text="'Inicio - ' + ${usuario.nombre}">Inicio - Nombre de Usuario</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2 { color: #333; }
@@ -22,7 +22,7 @@
 <ul>
     <li><a href="/admin/gestion-usuarios">Alta/baja/modificación de usuarios (clientes/técnicos)</a></li>
     <li><a href="/admin/asignar-incidencia">Asignación manual de incidencias a técnicos</a></li>
-    <li><a href="/admin/ver-tickets">Visualización de todos los tickets</a></li>
+    <li><a href="/admin/verIncidencias">Visualización de todos los tickets</a></li>
 </ul>
 
 <p class="logout"><a href="/logout">Cerrar Sesión</a></p>

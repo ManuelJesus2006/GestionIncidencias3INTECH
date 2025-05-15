@@ -29,6 +29,7 @@ public class Controlador {
         this.incidenciaService = incidenciaService;
     }
 
+    //PAGINA LOGIN
     @GetMapping("/")
     public String mostrarPaginaLogin(HttpSession session) {
         if (session.getAttribute("usuarioAutenticado") != null) {
@@ -67,6 +68,7 @@ public class Controlador {
         return "login";
     }
 
+    //PAGINA DE INICIO TODOS LOS USUARIOS
     @GetMapping("/inicio")
     public String mostrarInicio(HttpSession session, Model model) {
         Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
@@ -91,12 +93,14 @@ public class Controlador {
         }
     }
 
+    //CERRAR SESIÓN EN TODOS LOS USUARIOS
     @GetMapping("/logout")
     public String cerrarSesion(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
 
+    //ADMIN --> REGISTRAR USUARIOS
     @GetMapping("/admin/gestion-usuarios")
     public String mostrarMenuUsuarios(Model model) {
         return "admin-eleccion-tipo";
@@ -125,9 +129,9 @@ public class Controlador {
             Model model
     ) {
         if (tipo.equals("tecnico")) {
-            tecnicoService.guardar(nombre, correo, clave);
+            tecnicoService.guardar(correo, clave, nombre);
         } else if (tipo.equals("cliente")) {
-            clienteService.guardar(nombre, correo, clave);
+            clienteService.guardar(correo, clave, nombre);
         } else {
             model.addAttribute("error", "Tipo de usuario no válido");
             return "menu-usuarios";
@@ -137,7 +141,7 @@ public class Controlador {
         return "registro-exitoso";
     }
 
-
+    //ADMIN --> ASIGNAR INCIDENCIA
     @GetMapping("/admin/asignar-incidencia")
     public String asignacionIncidencia(HttpSession session, Model model){
         Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
@@ -244,5 +248,64 @@ public class Controlador {
             model.addAttribute("tecnicos", tecnicos);
             return "admin-elegir-tecnico";
         }
+    }
+
+    //ADMIN --> VER TODOS LOS TICKETS(INCIDENCIAS)
+    @GetMapping("/admin/verIncidencias")
+    public String mostrarPagIncidencias(HttpSession session, Model model){
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || userRole == null) {
+            return "redirect:/";
+        }
+
+        ArrayList<Incidencia> incidenciasActuales = incidenciaService.getTodasIncidencias();
+
+        model.addAttribute("incidencias", incidenciasActuales);
+
+        return "admin-ver-todas-incidencias";
+    }
+
+    //CLIENTE --> CREAR NUEVA INCIDENCIA
+    @GetMapping("cliente/nueva-incidencia")
+    public String mostrarMenuNuevaIncidencia(Model model){
+        return "cliente-formulario-nueva-incidencia";
+    }
+
+    @PostMapping("/cliente/nueva-incidencia")
+    public String crearNuevaIncidencia(
+            HttpSession session,
+            Model model,
+            @RequestParam("contenido") String contenido){
+
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || userRole == null) {
+            return "redirect:/";
+        }
+        Cliente cliente = (Cliente) usuarioAutenticado;
+
+        incidenciaService.nuevaIncidencia(contenido, cliente);
+
+        return "registro-nueva-incidencia-exitoso";
+    }
+
+    //CLIENTE --> HISTORIAL INCIDENCIAS PROPIAS
+    @GetMapping("cliente/historial-incidencias")
+    public String mostrarHistorialIncidencias(HttpSession session, Model model){
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || userRole == null) {
+            return "redirect:/";
+        }
+
+        Cliente cliente = (Cliente) usuarioAutenticado;
+        ArrayList<Incidencia> incidenciasPropiasCliente = incidenciaService.getIncidenciasCliente(cliente);
+
+        model.addAttribute("incidencias", incidenciasPropiasCliente);
+        return "cliente-historial-incidencias";
     }
 }

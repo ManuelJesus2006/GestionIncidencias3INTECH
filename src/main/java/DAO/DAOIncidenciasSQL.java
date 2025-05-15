@@ -1,11 +1,13 @@
 package DAO;
 
+import models.Cliente;
 import models.Incidencia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DAOIncidenciasSQL implements DAOIncidencia{
@@ -13,6 +15,7 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
     public ArrayList<Incidencia> readAll(DAOManager dao) {
         ArrayList<Incidencia> lista = new ArrayList();
         String sentencia = "select * from Incidencias";
+        LocalDate fechaCreacion = null;
         try {
             dao.open();
             PreparedStatement ps = dao.getConn().prepareStatement(sentencia);
@@ -22,6 +25,7 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
                     Incidencia incidencia = new Incidencia(rs.getInt("id"),
                             rs.getString("contenido"),
                             rs.getInt("estado"),
+                            rs.getDate("fechaCreacion").toLocalDate(),
                             rs.getInt("id_cliente"),
                             rs.getInt("id_tecnico"));
                     lista.add(incidencia);
@@ -37,11 +41,29 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
     }
 
     @Override
-    public boolean update(Incidencia incidencia, int id_tecnico, DAOManager dao) {
+    public boolean updateTecnico(Incidencia incidencia, int id_tecnico, DAOManager dao) {
         try{
             dao.open();
             String sentencia = "UPDATE `Incidencias` SET `id_tecnico` = '" + id_tecnico + "' "
                     + "WHERE `Incidencias`.`id` = " + incidencia.getId();
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean insert(Incidencia incidencia, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "INSERT INTO `Incidencias` (`id`, `contenido`, `estado`, `id_cliente`, " +
+                    "`fechaCreacion`) VALUES (" +
+                    "'" + incidencia.getId() + "', '" + incidencia.getContenido() + "', '"
+                    + incidencia.getEstado() + "', '" + incidencia.getCliente().getId() +
+                    "', '" + incidencia.getFechaCreacion() + "')";
             Statement stmt = dao.getConn().createStatement();
             stmt.executeUpdate(sentencia);
             dao.close();

@@ -2,6 +2,7 @@ package models;
 
 import DAO.DAOIncidenciasSQL;
 import DAO.DAOManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class IncidenciaService {
     }
 
     public ArrayList<Incidencia> getIncidenciasPendientesAsignar() {
-        ArrayList<Incidencia> todasIncidencias = daoIncidencia.readAll(dao);
+        ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
         ArrayList<Incidencia> incidenciasSinAsignar = new ArrayList<>();
         for (Incidencia i : todasIncidencias){
             if (i.getTecnico() == null) incidenciasSinAsignar.add(i);
@@ -28,6 +29,23 @@ public class IncidenciaService {
     }
 
     public boolean assignTecnicoToIncidencia(Integer incidenciaId, Integer tecnicoId) {
-        return daoIncidencia.update(getIncidenciaById(incidenciaId), tecnicoId, dao);
+        return daoIncidencia.updateTecnico(getIncidenciaById(incidenciaId), tecnicoId, dao);
+    }
+
+    public ArrayList<Incidencia> getTodasIncidencias() {
+        return daoIncidencia.readAll(dao);
+    }
+
+    public void nuevaIncidencia(String contenido, Cliente cliente) {
+        daoIncidencia.insert(new Incidencia(contenido, cliente), dao);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasCliente(Cliente cliente) {
+        ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
+        ArrayList<Incidencia> incidenciasCliente = new ArrayList<>();
+        for (Incidencia i : todasIncidencias){
+            if (i.getCliente().getId() == cliente.getId()) incidenciasCliente.add(i);
+        }
+        return incidenciasCliente;
     }
 }

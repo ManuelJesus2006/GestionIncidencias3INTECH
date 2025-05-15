@@ -4,11 +4,16 @@ import DAO.DAOClienteSQL;
 import DAO.DAOIncidenciasSQL;
 import DAO.DAOManager;
 import DAO.DAOTecnicoSQL;
+import Utils.Utils;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Incidencia {
     private int id;
     private String contenido;
     private int estado;
+    private LocalDate fechaCreacion;
     private Cliente cliente;
     private Tecnico tecnico;
     private DAOManager dao = DAOManager.getSingletonInstance();
@@ -16,10 +21,11 @@ public class Incidencia {
     private DAOClienteSQL daoCliente = new DAOClienteSQL();
     private DAOIncidenciasSQL daoIncidencia = new DAOIncidenciasSQL();
 
-    public Incidencia(int id, String contenido, int estado, int id_cliente, int id_tecnico) {
+    public Incidencia(int id, String contenido, int estado, LocalDate fechaCreacion, int id_cliente, int id_tecnico) {
         this.id = id;
         this.contenido = contenido;
         this.estado = estado;
+        this.fechaCreacion = fechaCreacion;
         cliente = buscaClienteByID(id_cliente);
         tecnico = buscaTecnicoByID(id_tecnico);
     }
@@ -28,6 +34,7 @@ public class Incidencia {
         id = generaID();
         estado = 0;
         tecnico = null;
+        fechaCreacion = LocalDate.now();
         this.contenido = contenido;
         this.cliente = cliente;
     }
@@ -71,6 +78,14 @@ public class Incidencia {
 
     public void setTecnico(Tecnico tecnico) {
         this.tecnico = tecnico;
+    }
+
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDate fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     //Constructor
