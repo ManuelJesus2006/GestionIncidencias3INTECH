@@ -26,8 +26,9 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
                             rs.getString("contenido"),
                             rs.getInt("estado"),
                             rs.getDate("fechaCreacion").toLocalDate(),
-                            rs.getInt("id_cliente"),
-                            rs.getInt("id_tecnico"));
+                            rs.getString("id_cliente"),
+                            rs.getString("id_tecnico"),
+                            rs.getString("descripcionResolucion"));
                     lista.add(incidencia);
                 }
                 dao.close();
@@ -64,6 +65,38 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
                     "'" + incidencia.getId() + "', '" + incidencia.getContenido() + "', '"
                     + incidencia.getEstado() + "', '" + incidencia.getCliente().getId() +
                     "', '" + incidencia.getFechaCreacion() + "')";
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateEstadoResuelta(Incidencia incidencia, int estado, String descripcionResolucion, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "UPDATE `Incidencias` SET `estado` = '" + estado + "', "
+                    + "`descripcionResolucion` = '" + descripcionResolucion + "', "
+                    + "`id_tecnico` = " + "NULL" + " "
+                    + "WHERE `Incidencias`.`id` = " + incidencia.getId();
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateEstado(Incidencia incidencia, int estado, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "UPDATE `Incidencias` SET `estado` = '" + estado + "' "
+                    + "WHERE `Incidencias`.`id` = " + incidencia.getId();
             Statement stmt = dao.getConn().createStatement();
             stmt.executeUpdate(sentencia);
             dao.close();

@@ -7,11 +7,11 @@ public class Tecnico {
     private String correo;
     private String clave;
     private String nombre;
-    private int id;
+    private String id;
     private DAOManager dao = DAOManager.getSingletonInstance();
     private DAOTecnicoSQL daoTecnico = new DAOTecnicoSQL();
 
-    public Tecnico(int id, String correo, String clave, String nombre) {
+    public Tecnico(String id, String correo, String clave, String nombre) {
         this.correo = correo;
         this.clave = clave;
         this.nombre = nombre;
@@ -49,26 +49,26 @@ public class Tecnico {
         this.nombre = nombre;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     //Metodos
-    private int generaID() {
-        int aleatorio;
+    private String generaID() {
+        String tokenGenerado;
         do {
-            aleatorio = (int)(Math.random() * 10000);
-        }while (existeID(aleatorio));
-        return aleatorio;
+            tokenGenerado = "TEC" + (int)(Math.random() * 10000);
+        }while (existeID(tokenGenerado));
+        return tokenGenerado;
     }
 
-    private boolean existeID(int aleatorio) {
+    private boolean existeID(String idGenerada) {
         for (Tecnico tec : daoTecnico.readAll(dao)){
-            if (tec.getId() == aleatorio) return true;
+            if (tec.getId().equals(idGenerada)) return true;
         }
         return false;
     }

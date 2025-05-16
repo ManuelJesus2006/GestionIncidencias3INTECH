@@ -239,7 +239,7 @@ public class Controlador {
         boolean asignacionExitosa = incidenciaService.assignTecnicoToIncidencia(incidenciaId, tecnicoId);
 
         if (asignacionExitosa) {
-            return "redirect:/admin/incidencia/" + incidenciaId;
+            return "asignacion-incidencia-exitosa";
         } else {
             model.addAttribute("errorAsignacion", "No se pudo asignar la incidencia. Incidencia o técnico no encontrados.");
             Incidencia incidencia = incidenciaService.getIncidenciaById(incidenciaId);
@@ -307,5 +307,138 @@ public class Controlador {
 
         model.addAttribute("incidencias", incidenciasPropiasCliente);
         return "cliente-historial-incidencias";
+    }
+
+    //CLIENTE --> CONSULTAR ESTADO INCIDENCIA CONCRETA
+    @GetMapping("/cliente/consultar-incidencia")
+    public String consultarIncidenciaConcreta(Model model){
+        return "";
+    }
+
+    //TECNICO --> VER INCIDENCIAS ASIGNADAS
+    @GetMapping("/tecnico/incidencias-asignadas")
+    public String verIncidenciasAsignadas(HttpSession session, Model model){
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || userRole == null) {
+            return "redirect:/";
+        }
+
+        Tecnico tecnico = (Tecnico) usuarioAutenticado;
+        ArrayList<Incidencia> incidenciasAsignadasTecnico = incidenciaService.getIncidenciasAsignadas(tecnico);
+
+        model.addAttribute("incidencias", incidenciasAsignadasTecnico);
+        return "tecnico-incidencias-asignadas";
+    }
+
+    //TECNICO --> MARCAR INCIDENCIA COMO RESUELTA
+    @GetMapping("/tecnico/marcar-resuelta/elegir-incidencia")
+    public String elegirIncidenciaParaResuelta(HttpSession session, Model model) {
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || !"TECNICO".equals(userRole)) {
+            return "redirect:/";
+        }
+
+        Tecnico tecnico = (Tecnico) usuarioAutenticado;
+
+        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadas(tecnico);
+
+        model.addAttribute("incidencias", incidenciasPendientes);
+
+        return "tecnico-elegir-incidencia-marcar-resuelta";
+    }
+
+    @GetMapping("/tecnico/incidencia/marcar-resuelta")
+    public String mostrarFormularioDescripcionResolucion(
+            @RequestParam("incidenciaId") Integer incidenciaId,
+            HttpSession session,
+            Model model) {
+
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || !"TECNICO".equals(userRole) ) {
+            return "redirect:/";
+        }
+
+        Incidencia incidencia = incidenciaService.getIncidenciaById(incidenciaId);
+
+        if (incidencia == null) {
+            return "redirect:/tecnico/incidencias-asignadas";
+        }
+
+        model.addAttribute("incidencia", incidencia);
+
+        return "tecnico-introducir-descripcion-resolucion";
+    }
+
+    @PostMapping("/tecnico/incidencia/marcar-resuelta/descripcion-resolucion")
+    public String marcarComoResueltoYDescripcionResolucion(
+            @RequestParam("incidenciaId") Integer incidenciaId,
+            @RequestParam("descripcionResolucion") String descripcionResolucion,
+            HttpSession session,
+            Model model){
+        Incidencia incidencia = incidenciaService.getIncidenciaById(incidenciaId);
+        incidenciaService.setNuevoEstado(incidencia, 2, descripcionResolucion);
+        return "tecnico-cambio-estado-exitoso";
+    }
+
+    //TECNICO --> CAMBIAR ESTADO
+    @GetMapping("/tecnico/cambiar-estado/elegir-incidencia")
+    public String elegirIncidenciaParaCambioEstado(HttpSession session, Model model) {
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || !"TECNICO".equals(userRole)) {
+            return "redirect:/";
+        }
+
+        Tecnico tecnico = (Tecnico) usuarioAutenticado;
+
+        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadas(tecnico);
+
+        model.addAttribute("incidencias", incidenciasPendientes);
+
+        return "tecnico-elegir-incidencia-cambiar-estado";
+    }
+
+    @GetMapping("/tecnico/incidencia/nuevo-estado")
+    public String mostrarFormularioNuevoEstado(
+            @RequestParam("incidenciaId") Integer incidenciaId,
+            HttpSession session,
+            Model model) {
+
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        String userRole = (String) session.getAttribute("userRole");
+
+        if (usuarioAutenticado == null || !"TECNICO".equals(userRole) ) {
+            return "redirect:/";
+        }
+
+        Incidencia incidencia = incidenciaService.getIncidenciaById(incidenciaId);
+
+        if (incidencia == null) {
+            return "redirect:/tecnico/incidencias-asignadas";
+        }
+
+        model.addAttribute("incidencia", incidencia);
+
+        return "tecnico-formulario-cambiar-estado";
+    }
+
+    @PostMapping("/tecnico/incidencia/cambiar-estado")
+    public String marcarCambioYDescripcionResolucion(
+            @RequestParam("incidenciaId") Integer incidenciaId,
+            @RequestParam(value = "descripcionResolucion", required = false) String descripcionResolucion,
+            @RequestParam("estado") Integer estado,
+            HttpSession session,
+            Model model){
+        if (estado != 2) descripcionResolucion = null;
+        Incidencia incidencia = incidenciaService.getIncidenciaById(incidenciaId);
+        incidenciaService.setNuevoEstado(incidencia, estado, descripcionResolucion);
+        return "tecnico-cambio-estado-exitoso";
     }
 }

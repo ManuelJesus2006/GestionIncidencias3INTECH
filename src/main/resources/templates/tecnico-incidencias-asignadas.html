@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver Incidencias</title>
+    <title>Incidencias Asignadas</title>
     <style>
         table {
             border-collapse: collapse;
@@ -18,13 +18,16 @@
         th {
             background-color: #f2f2f2;
         }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Todas las Incidencias</h1>
+    <h1>Incidencias Asignadas</h1>
 
-    <p>Aquí puedes ver una lista de todas las incidencias reportadas.</p>
+    <p>Aquí puedes ver las incidencias que te han sido asignadas.</p>
 
     <table>
         <thead>
@@ -32,15 +35,15 @@
                 <th>ID</th>
                 <th>Contenido</th>
                 <th>Estado</th>
-                <th>Fecha Creación</th> <th>Reportada por Cliente</th>
-                <th>Técnico Asignado</th>
-                <th>Descripcion Resolucion</th>
-                </tr>
+                <th>Fecha Creación</th>
+                <th>Reportada por Cliente</th>
+                <th>Descripcion resolucion</th>
+            </tr>
         </thead>
         <tbody>
             <tr th:each="incidencia : ${incidencias}">
                 <td th:text="${incidencia.id}">1</td>
-                <td th:text="${incidencia.contenido}">Contenido de la incidencia</td>
+                <td th:text="${incidencia.contenido}">Contenido de la incidencia...</td>
 
                 <td>
                     <span th:switch="${incidencia.estado}">
@@ -51,21 +54,19 @@
                     </span>
                 </td>
 
-                <td th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15-05-2025 18:30</td>
+                <td th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15/05/2025 10:00</td>
 
                 <td th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</td>
-                <td th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico</td>
 
                 <td th:text="${incidencia.descripcionResolucion != null ? incidencia.descripcionResolucion : 'Esta incidencia no ha sido resuelta'}">Texto de ejemplo</td>
 
             </tr>
             <tr th:if="${#lists.isEmpty(incidencias)}">
-                <td colspan="6">No hay incidencias reportadas en este momento.</td>
+                <td colspan="6">No tienes incidencias asignadas en este momento.</td>
             </tr>
         </tbody>
     </table>
 
-    <p><a href="/inicio">Volver al inicio</a></p>
-
-</body>
+    <p><a href="/inicio">Volver a mi inicio</a></p>
+    </body>
 </html>

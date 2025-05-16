@@ -19,7 +19,10 @@ public class DAOAdminSQL implements DAOAdmin {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
-                    admin = new Admin(rs.getInt("id"), rs.getString("correo"), rs.getString("clave"), rs.getString("nombre"));
+                    admin = new Admin(rs.getString("id"),
+                            rs.getString("correo"),
+                            rs.getString("clave"),
+                            rs.getString("nombre"));
                 }
 
                 dao.close();

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcar Incidencia Resuelta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .incidencia-detalle {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .incidencia-detalle p {
+            margin-bottom: 8px;
+        }
+        .incidencia-detalle strong {
+            display: inline-block;
+            width: 150px; /* Ancho fijo para alinear */
+        }
+         .form-resolucion label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-resolucion textarea {
+            width: 95%; /* Ajusta según necesites */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-resolucion button {
+            padding: 10px 15px;
+            background-color: #28a745; /* Color verde */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-resolucion button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Marcar Incidencia como Resuelta</h1>
+
+    <p>Completa la descripción de la resolución para cerrar esta incidencia.</p>
+
+    <div class="incidencia-detalle" th:if="${incidencia != null}">
+        <h2>Detalles de la Incidencia: ID <span th:text="${incidencia.id}"></span></h2>
+        <p><strong>Contenido:</strong> <span th:text="${incidencia.contenido}">Descripción detallada de la incidencia...</span></p>
+        <p><strong>Estado Actual:</strong>
+             <span th:switch="${incidencia.estado}">
+                <span th:case="0">Pendiente</span>
+                <span th:case="1">En curso</span>
+                <span th:case="2">Resuelta</span>
+                <span th:case="*">Desconocido</span>
+            </span>
+        </p>
+        <p><strong>Fecha Creación:</strong> <span th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15/05/2025 10:00</span></p>
+        <p><strong>Reportada por Cliente:</strong> <span th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</span></p>
+    </div>
+
+    <div class="form-resolucion">
+        <h3>Descripción de la Resolución</h3>
+        <form th:action="@{/tecnico/incidencia/marcar-resuelta/descripcion-resolucion}" method="post">
+
+            <input type="hidden" name="incidenciaId" th:value="${incidencia.id}" />
+
+            <label for="descripcionResolucion">Describe cómo se resolvió la incidencia:</label>
+            <textarea id="descripcionResolucion" name="descripcionResolucion" rows="6" cols="80" required></textarea>
+            <br/>
+
+            <button type="submit">Marcar como Resuelta</button>
+        </form>
+    </div>
+
+
+    <p>
+        <a href="/tecnico/marcar-resuelta/elegir-incidencia">Volver a la lista de incidencias asignadas</a>
+    </p>
+
+</body>
+</html>

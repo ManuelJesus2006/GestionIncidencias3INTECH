@@ -4,9 +4,9 @@ public class Admin {
     private String correo;
     private String clave;
     private String nombre;
-    private int id;
+    private String id;
 
-    public Admin(int id, String correo, String clave, String nombre) {
+    public Admin(String id, String correo, String clave, String nombre) {
         this.correo = correo;
         this.clave = clave;
         this.nombre = nombre;
@@ -37,11 +37,11 @@ public class Admin {
         this.nombre = nombre;
     }
 
-    public int getId() {
-        return this.id;
+    public String getId() {
+        return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

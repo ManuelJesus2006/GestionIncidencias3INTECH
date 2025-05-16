@@ -21,7 +21,7 @@ public class DAOClienteSQL implements DAOCliente {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
-                    Cliente cliente = new Cliente(rs.getInt("id"), rs.getString("correo"), rs.getString("clave"), rs.getString("nombre"));
+                    Cliente cliente = new Cliente(rs.getString("id"), rs.getString("correo"), rs.getString("clave"), rs.getString("nombre"));
                     lista.add(cliente);
                 }
 

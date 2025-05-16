@@ -22,7 +22,10 @@ public class DAOTecnicoSQL implements DAOTecnico {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()) {
-                    Tecnico tecnico = new Tecnico(rs.getInt("id"), rs.getString("correo"), rs.getString("clave"), rs.getString("nombre"));
+                    Tecnico tecnico = new Tecnico(rs.getString("id"),
+                            rs.getString("correo"),
+                            rs.getString("clave"),
+                            rs.getString("nombre"));
                     lista.add(tecnico);
                 }
 

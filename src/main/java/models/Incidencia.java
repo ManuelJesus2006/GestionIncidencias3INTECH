@@ -5,6 +5,7 @@ import DAO.DAOIncidenciasSQL;
 import DAO.DAOManager;
 import DAO.DAOTecnicoSQL;
 import Utils.Utils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -13,6 +14,8 @@ public class Incidencia {
     private int id;
     private String contenido;
     private int estado;
+    private String descripcionResolucion;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaCreacion;
     private Cliente cliente;
     private Tecnico tecnico;
@@ -21,11 +24,12 @@ public class Incidencia {
     private DAOClienteSQL daoCliente = new DAOClienteSQL();
     private DAOIncidenciasSQL daoIncidencia = new DAOIncidenciasSQL();
 
-    public Incidencia(int id, String contenido, int estado, LocalDate fechaCreacion, int id_cliente, int id_tecnico) {
+    public Incidencia(int id, String contenido, int estado, LocalDate fechaCreacion, String id_cliente, String id_tecnico, String descripcionResolucion) {
         this.id = id;
         this.contenido = contenido;
         this.estado = estado;
         this.fechaCreacion = fechaCreacion;
+        this.descripcionResolucion = descripcionResolucion;
         cliente = buscaClienteByID(id_cliente);
         tecnico = buscaTecnicoByID(id_tecnico);
     }
@@ -34,6 +38,7 @@ public class Incidencia {
         id = generaID();
         estado = 0;
         tecnico = null;
+        descripcionResolucion = null;
         fechaCreacion = LocalDate.now();
         this.contenido = contenido;
         this.cliente = cliente;
@@ -88,6 +93,14 @@ public class Incidencia {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public String getDescripcionResolucion() {
+        return descripcionResolucion;
+    }
+
+    public void setDescripcionResolucion(String descripcionResolucion) {
+        this.descripcionResolucion = descripcionResolucion;
+    }
+
     //Constructor
     private int generaID() {
         int aleatorio;
@@ -104,16 +117,16 @@ public class Incidencia {
         return false;
     }
 
-    private Tecnico buscaTecnicoByID(int idTecnico) {
+    private Tecnico buscaTecnicoByID(String idTecnico) {
         for (Tecnico tec : daoTecnico.readAll(dao)){
-            if (tec.getId() == idTecnico) return tec;
+            if (tec.getId().equals(idTecnico)) return tec;
         }
         return null;
     }
 
-    private Cliente buscaClienteByID(int idCliente) {
+    private Cliente buscaClienteByID(String idCliente) {
         for (Cliente c : daoCliente.readAll(dao)){
-            if (c.getId() == idCliente) return c;
+            if (c.getId().equals(idCliente)) return c;
         }
         return null;
     }

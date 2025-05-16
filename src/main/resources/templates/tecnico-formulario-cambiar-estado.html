@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar Estado de Incidencia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .incidencia-detalle {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .incidencia-detalle p {
+            margin-bottom: 8px;
+        }
+        .incidencia-detalle strong {
+            display: inline-block;
+            width: 150px;
+        }
+        .form-estado label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-estado select,
+        .form-estado textarea {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 95%;
+            box-sizing: border-box;
+        }
+         .form-estado textarea {
+             min-height: 100px;
+         }
+        .form-estado button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-estado button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cambiar Estado de Incidencia</h1>
+
+    <p>Selecciona el nuevo estado para la Incidencia ID <span th:text="${incidencia.id}"></span>.</p>
+
+     <div class="incidencia-detalle" th:if="${incidencia != null}">
+        <h2>Detalles de la Incidencia: ID <span th:text="${incidencia.id}"></span></h2>
+        <p><strong>Contenido:</strong> <span th:text="${incidencia.contenido}">Descripción detallada de la incidencia...</span></p>
+        <p><strong>Estado Actual:</strong>
+             <span th:switch="${incidencia.estado}">
+                <span th:case="0">Pendiente</span>
+                <span th:case="1">En curso</span>
+                <span th:case="2">Resuelta</span>
+                <span th:case="*">Desconocido</span>
+            </span>
+        </p>
+        <p><strong>Fecha Creación:</strong> <span th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15/05/2025 10:00</span></p>
+        <p><strong>Reportada por Cliente:</strong> <span th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</span></p>
+        <p><strong>Técnico Asignado:</strong> <span th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico</span></p>
+    </div>
+
+
+    <div class="form-estado">
+        <form th:action="@{/tecnico/incidencia/cambiar-estado}" method="post">
+
+            <input type="hidden" name="incidenciaId" th:value="${incidencia.id}" />
+
+            <label for="nuevoEstado">Nuevo Estado:</label>
+            <select id="nuevoEstado" name="estado">
+                <option value="0" th:selected="${incidencia.estado == 0}">Pendiente</option>
+                <option value="1" th:selected="${incidencia.estado == 1}">En curso</option>
+                <option value="2" th:selected="${incidencia.estado == 2}">Resuelta</option>
+            </select>
+            <br/>
+
+            <div id="resolucionDiv" style="display: none;">
+                <label for="descripcionResolucion">Descripción de la Resolución:</label>
+                <textarea id="descripcionResolucion" name="descripcionResolucion" rows="6" cols="80" required></textarea>
+                <br/>
+            </div>
+
+            <button type="submit">Actualizar Estado</button>
+        </form>
+    </div>
+
+    <p>
+        <a href="/tecnico/cambiar-estado/elegir-incidencia">Volver a la lista de incidencias asignadas</a>
+    </p>
+
+    <script th:src="@{/logicaDescripcionResolucion.js}"></script>
+
+    
+</body>
+</html>

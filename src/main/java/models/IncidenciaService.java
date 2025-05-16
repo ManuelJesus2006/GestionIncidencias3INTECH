@@ -23,7 +23,7 @@ public class IncidenciaService {
         ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
         ArrayList<Incidencia> incidenciasSinAsignar = new ArrayList<>();
         for (Incidencia i : todasIncidencias){
-            if (i.getTecnico() == null) incidenciasSinAsignar.add(i);
+            if (i.getTecnico() == null && i.getEstado() != 2) incidenciasSinAsignar.add(i);
         }
         return incidenciasSinAsignar;
     }
@@ -44,8 +44,24 @@ public class IncidenciaService {
         ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
         ArrayList<Incidencia> incidenciasCliente = new ArrayList<>();
         for (Incidencia i : todasIncidencias){
-            if (i.getCliente().getId() == cliente.getId()) incidenciasCliente.add(i);
+            if (i.getCliente().getId().equals(cliente.getId())) incidenciasCliente.add(i);
         }
         return incidenciasCliente;
+    }
+
+    public ArrayList<Incidencia> getIncidenciasAsignadas(Tecnico tecnico) {
+        ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
+        ArrayList<Incidencia> incidenciasAsignadasTecnico = new ArrayList<>();
+        for (Incidencia i : todasIncidencias){
+            if (i.getTecnico() != null){
+                if (i.getTecnico().getId().equals(tecnico.getId())) incidenciasAsignadasTecnico.add(i);
+            }
+        }
+        return incidenciasAsignadasTecnico;
+    }
+
+    public void setNuevoEstado(Incidencia incidencia, int estado, String descripcionResolucion) {
+        if (descripcionResolucion != null) daoIncidencia.updateEstadoResuelta(incidencia, estado, descripcionResolucion, dao);
+        else daoIncidencia.updateEstado(incidencia, estado, dao);
     }
 }

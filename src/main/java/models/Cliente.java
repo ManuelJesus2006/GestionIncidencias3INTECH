@@ -13,12 +13,12 @@ public class Cliente {
     private String correo;
     private String clave;
     private String nombre;
-    private int id;
+    private String id;
     private DAOManager dao = DAOManager.getSingletonInstance();
     private DAOClienteSQL daoCliente = new DAOClienteSQL();
 
     //Constructor normal
-    public Cliente(int id, String correo, String clave, String nombre) {
+    public Cliente(String id, String correo, String clave, String nombre) {
         this.correo = correo;
         this.clave = clave;
         this.nombre = nombre;
@@ -56,26 +56,26 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public int getId() {
-        return this.id;
+    public String getId() {
+        return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     //Metodos
-    private int generaID() {
-        int aleatorio;
+    private String generaID() {
+        String tokenGenerado;
         do {
-            aleatorio = (int)(Math.random() * 10000);
-        }while (existeID(aleatorio));
-        return aleatorio;
+            tokenGenerado = "CLI" + (int)(Math.random() * 10000);
+        }while (existeID(tokenGenerado));
+        return tokenGenerado;
     }
 
-    private boolean existeID(int aleatorio) {
+    private boolean existeID(String idGenerada) {
         for (Cliente c : daoCliente.readAll(dao)){
-            if (c.getId() == aleatorio) return true;
+            if (c.getId().equals(idGenerada)) return true;
         }
         return false;
     }

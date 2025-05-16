@@ -62,6 +62,7 @@
                 <th>Estado</th>
                 <th>Fecha Creación</th>
                 <th>Técnico Asignado</th>
+                <th>Descripcion resolucion</th>
             </tr>
         </thead>
         <tbody>
@@ -71,16 +72,18 @@
 
                 <td>
                     <span th:switch="${incidencia.estado}">
-                        <span th:case="0" class="estado-abierta">Abierta</span>
-                        <span th:case="1" class="estado-proceso">En Proceso</span>
-                        <span th:case="2" class="estado-cerrada">Cerrada</span>
+                        <span th:case="0" class="estado-abierta">Pendiente</span>
+                        <span th:case="1" class="estado-proceso">En curso</span>
+                        <span th:case="2" class="estado-cerrada">Resuelta</span>
                         <span th:case="*">Estado Desconocido</span>
                     </span>
                 </td>
 
-                 <td th:text="${incidencia.fechaCreacion != null ? #dates.format(incidencia.fechaCreacion, 'dd-MM-yyyy HH:mm') : 'N/A'}">15-05-2025 18:30</td>
+                <td th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15-05-2025 18:30</td>
 
                 <td th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico Asignado</td>
+
+                <td th:text="${incidencia.descripcionResolucion != null ? incidencia.descripcionResolucion : 'Esta incidencia no ha sido resuelta'}">Texto de ejemplo</td>
             </tr>
             <tr th:if="${#lists.isEmpty(incidencias)}">
                 <td colspan="5">No has reportado ninguna incidencia aún.</td>
