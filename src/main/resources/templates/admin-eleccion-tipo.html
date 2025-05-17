@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Tipo de Usuario</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin-eleccion-tipo.css}">
 </head>
 <body>
-<h1>Gestión de Usuarios</h1>
-<form th:action="@{/admin/gestion-usuarios/tipo}" method="post">
-    <label for="tipo">Selecciona el tipo de usuario:</label>
-    <select id="tipo" name="tipo">
-        <option value="tecnico">Técnico</option>
-        <option value="cliente">Cliente</option>
-    </select>
-    <button type="submit">Continuar</button>
-</form>
+
+    <div class="main-container">
+        <h1>Gestión de Usuarios</h1>
+
+        <form th:action="@{/admin/gestion-usuarios/tipo}" method="post">
+            <div class="form-group">
+                <label for="tipo">Selecciona el tipo de usuario:</label>
+                <select id="tipo" name="tipo">
+                    <option value="tecnico">Técnico</option>
+                    <option value="cliente">Cliente</option>
+                </select>
+            </div>
+            <button type="submit">Continuar</button>
+        </form>
+    </div>
+
 </body>
 </html>

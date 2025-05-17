@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class IncidenciaService {
     private DAOIncidenciasSQL daoIncidencia = new DAOIncidenciasSQL();
     private DAOManager dao = DAOManager.getSingletonInstance();
+
     public Incidencia getIncidenciaById(Integer incidenciaId) {
         ArrayList<Incidencia> todasIncidencias = daoIncidencia.readAll(dao);
         for (Incidencia i : todasIncidencias){
@@ -63,5 +64,13 @@ public class IncidenciaService {
     public void setNuevoEstado(Incidencia incidencia, int estado, String descripcionResolucion) {
         if (descripcionResolucion != null) daoIncidencia.updateEstadoResuelta(incidencia, estado, descripcionResolucion, dao);
         else daoIncidencia.updateEstado(incidencia, estado, dao);
+    }
+
+    public Incidencia getIncidenciaByIdCliente(int idIncidencia, Cliente cliente) {
+        ArrayList<Incidencia> todasIncidencias = daoIncidencia.readAll(dao);
+        for (Incidencia i : todasIncidencias){
+            if (i.getId() == idIncidencia && i.getCliente().getId().equals(cliente.getId())) return i;
+        }
+        return null;
     }
 }

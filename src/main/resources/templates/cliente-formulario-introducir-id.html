@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Incidencia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .form-consulta label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-consulta input[type="text"],
+        .form-consulta input[type="number"] {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .form-consulta button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-consulta button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Consultar Estado de Incidencia</h1>
+
+    <p>Introduce el ID de la incidencia que deseas consultar.</p>
+
+    <div class="form-consulta">
+        <form th:action="@{/cliente/consultar-incidencia/id}" method="post">
+
+            <label for="idIncidencia">Introduce el ID de la incidencia:</label>
+            <input type="text" id="idIncidencia" name="idIncidencia" required/>
+            <br/>
+
+            <button type="submit">Consultar</button>
+        </form>
+    </div>
+
+    <p>
+        <a href="/inicio">Volver al inicio</a>
+    </p>
+
+</body>
+</html>

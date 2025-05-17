@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Incidencia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .incidencia-detalle {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .incidencia-detalle p {
+            margin-bottom: 8px;
+        }
+        .incidencia-detalle strong {
+            display: inline-block;
+            width: 150px;
+        }
+        .mensaje-error {
+            color: red;
+            font-weight: bold;
+        }
+        .estado-incidencia {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Estado de la Incidencia</h1>
+
+    <div th:if="${mensajeError}" class="mensaje-error">
+        <p th:text="${mensajeError}"></p>
+    </div>
+
+    <div th:if="${incidencia != null}" class="incidencia-detalle">
+        <h2>Detalles de la Incidencia: ID <span th:text="${incidencia.id}"></span></h2>
+        <p><strong>Contenido:</strong> <span th:text="${incidencia.contenido}">Descripción detallada de la incidencia...</span></p>
+        <p><strong>Estado:</strong>
+             <span th:switch="${incidencia.estado}">
+                 <span th:case="0" class="estado-incidencia">Pendiente</span>
+                 <span th:case="1" class="estado-incidencia">En curso</span>
+                 <span th:case="2" class="estado-incidencia">Resuelta</span>
+                 <span th:case="*" class="estado-incidencia">Desconocido</span>
+             </span>
+        </p>
+        <p><strong>Fecha Creación:</strong> <span th:text="${incidencia.fechaCreacion != null ? incidencia.fechaCreacion : 'N/A'}">15/05/2025 10:00</span></p>
+        <p><strong>Reportada por Cliente:</strong> <span th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</span></p>
+        <p><strong>Técnico Asignado:</strong> <span th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico</span></p>
+
+        <div th:if="${incidencia.estado == 2 and incidencia.descripcionResolucion != null and !#strings.isEmpty(incidencia.descripcionResolucion)}">
+             <p><strong>Descripción de la Resolución:</strong> <span th:text="${incidencia.descripcionResolucion}"></span></p>
+        </div>
+
+    </div>
+
+    <div th:if="${incidencia == null and mensajeError == null}" class="mensaje-error">
+        <p>No se encontró ninguna incidencia con el ID proporcionado.</p>
+    </div>
+
+
+    <p>
+        <a href="/cliente/consultar-incidencia">Consultar otra incidencia</a>
+        <br/><a href="/inicio">Volver al inicio</a>
+    </p>
+
+</body>
+</html>

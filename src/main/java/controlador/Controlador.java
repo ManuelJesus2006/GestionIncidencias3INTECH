@@ -311,8 +311,21 @@ public class Controlador {
 
     //CLIENTE --> CONSULTAR ESTADO INCIDENCIA CONCRETA
     @GetMapping("/cliente/consultar-incidencia")
-    public String consultarIncidenciaConcreta(Model model){
-        return "";
+    public String mostraFormularioIncidenciaConcreta(Model model){
+        return "cliente-formulario-introducir-id";
+    }
+
+    @PostMapping("/cliente/consultar-incidencia/id")
+    public String buscarIncidenciaConcreta(
+            @RequestParam("idIncidencia") int idIncidencia,
+            HttpSession session,
+            Model model
+            ){
+        Object usuarioAutenticado = session.getAttribute("usuarioAutenticado");
+        Cliente cliente = (Cliente) usuarioAutenticado;
+        Incidencia incidencia = incidenciaService.getIncidenciaByIdCliente(idIncidencia, cliente);
+        model.addAttribute("incidencia", incidencia);
+        return "cliente-mostrar-estado-incidencia";
     }
 
     //TECNICO --> VER INCIDENCIAS ASIGNADAS
