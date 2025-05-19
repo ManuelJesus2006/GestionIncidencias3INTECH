@@ -4,50 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estado de Incidencia</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-        .incidencia-detalle {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        .incidencia-detalle p {
-            margin-bottom: 8px;
-        }
-        .incidencia-detalle strong {
-            display: inline-block;
-            width: 150px;
-        }
-        .mensaje-error {
-            color: red;
-            font-weight: bold;
-        }
-
-        .estado-display {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #e9e9e9;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .estado-display strong {
-            font-size: 1.2em;
-            color: #333;
-        }
-
-        .estado-incidencia-grande {
-            font-size: 2em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/cliente-mostrar-estado-incidencia.css}">
 </head>
 <body>
 
@@ -91,7 +48,7 @@
 
     <p>
         <a href="/cliente/consultar-incidencia">Consultar otra incidencia</a>
-        <br/><a href="/inicio">Volver al inicio</a>
+        <br/><a href="/inicio-cliente">Volver al inicio</a>
     </p>
 
 </body>

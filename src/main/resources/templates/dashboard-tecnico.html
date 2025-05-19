@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="'Inicio - ' + ${usuario.nombre}">Inicio - Nombre de Usuario</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1, h2 { color: #333; }
-        ul { list-style: disc; margin-left: 20px; }
-        li { margin-bottom: 10px; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-         .logout { margin-top: 30px; }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-inicios.css}">
 </head>
 <body>
-<h1>Dashboard de Técnico</h1>
-<p th:if="${usuario}">Bienvenido, <span th:text="${usuario.nombre != null ? usuario.nombre : 'Usuario'}">Usuario</span>!</p>
-<p th:unless="${usuario}">Bienvenido al Dashboard de Técnico.</p>
+    <div class="main-container">
+        <h1>Dashboard de Técnico</h1>
 
-<h2>Funcionalidades Disponibles:</h2>
-<ul>
-    <li><a href="/tecnico/incidencias-asignadas">Ver incidencias asignadas</a></li>
-    <li><a href="/tecnico/marcar-resuelta/elegir-incidencia">Marcar la incidencia como resuelta (añadir descripción de resolución)</a></li>
-    <li><a href="/tecnico/cambiar-estado/elegir-incidencia">Cambiar estado</a></li>
-</ul>
+        <p th:if="${usuario}">Bienvenido, <span th:text="${usuario != null ? usuario.nombre : 'Usuario'}">Usuario</span>!</p>
+        <p th:unless="${usuario}">Bienvenido al Dashboard de Técnico.</p>
 
-<p class="logout"><a href="/logout">Cerrar Sesión</a></p>
+        <h2>Funcionalidades Disponibles:</h2>
+        <ul>
+            <li><a href="/tecnico/incidencias-asignadas">Ver incidencias asignadas</a></li>
+            <li><a href="/tecnico/marcar-resuelta/elegir-incidencia">Marcar la incidencia como resuelta (añadir descripción de resolución)</a></li>
+            <li><a href="/tecnico/cambiar-estado/elegir-incidencia">Cambiar estado</a></li>
+        </ul>
+
+        <p class="logout"><a href="/logout">Cerrar Sesión</a></p>
+    </div>
 </body>
 </html>
