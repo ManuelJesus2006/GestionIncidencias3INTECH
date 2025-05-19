@@ -3,56 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestionar incidencias</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        div {
-            margin-bottom: 15px;
-        }
-        strong {
-            display: inline-block; /* Para alinear mejor si es necesario */
-            width: 150px; /* Ancho fijo para las etiquetas */
-        }
-        hr {
-            margin: 20px 0;
-        }
-        .mensaje-error {
-            color: red;
-            font-weight: bold;
-        }
-        .mensaje-info {
-            color: orange; /* O el color que prefieras para el mensaje de no técnicos */
-            font-weight: bold;
-        }
-         button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover:not(:disabled) { /* Solo aplica el hover si el botón NO está deshabilitado */
-            background-color: #0056b3;
-        }
-         button:disabled { /* Estilo para botón deshabilitado */
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin-elegir-tecnico.css}">
 </head>
 <body>
     <h1>Asignar Técnico a Incidencia</h1>

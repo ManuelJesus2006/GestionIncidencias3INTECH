@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+div[th:if],
+div[th:unless] {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+div[th:if] {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    padding: 10px;
+    text-align: left;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+td span[th:switch] span[th:case] {
+    font-weight: bold;
+}
+
+td form {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    text-align: center;
+}
+
+td form button {
+    display: inline-block;
+    width: auto;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+td form button:hover {
+    background-color: #0056b3;
+}
+
+body>a {
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+body>a:hover {
+    text-decoration: underline;
+}
+
+div[th:if] p {
+    margin: 0;
+    color: #555;
+}
