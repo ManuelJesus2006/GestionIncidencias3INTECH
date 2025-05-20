@@ -78,8 +78,7 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
         try{
             dao.open();
             String sentencia = "UPDATE `Incidencias` SET `estado` = '" + estado + "', "
-                    + "`descripcionResolucion` = '" + descripcionResolucion + "', "
-                    + "`id_tecnico` = " + "NULL" + " "
+                    + "`descripcionResolucion` = '" + descripcionResolucion + "' "
                     + "WHERE `Incidencias`.`id` = " + incidencia.getId();
             Statement stmt = dao.getConn().createStatement();
             stmt.executeUpdate(sentencia);

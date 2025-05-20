@@ -73,7 +73,8 @@ public class IncidenciaService {
     }
 
     public void setNuevoEstado(Incidencia incidencia, int estado, String descripcionResolucion) {
-        daoIncidencia.updateEstado(incidencia, estado, dao);
+        if (estado == 2) daoIncidencia.updateEstadoResuelta(incidencia, estado, descripcionResolucion, dao);
+        else daoIncidencia.updateEstado(incidencia, estado, dao);
     }
 
     public Incidencia getIncidenciaByIdCliente(int idIncidencia, Cliente cliente) {
