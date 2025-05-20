@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Gestionar incidencias</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin-elegir-tecnico.css}">
 </head>
+
 <body>
     <h1>Asignar Técnico a Incidencia</h1>
 
     <div>
         <p><strong>ID Incidencia:</strong> <span th:text="${incidencia.id}">123</span></p>
-        <p><strong>Contenido:</strong> <span th:text="${incidencia.contenido}">Contenido de la incidencia aquí...</span></p>
+        <p><strong>Contenido:</strong> <span th:text="${incidencia.contenido}">Contenido de la incidencia aquí...</span>
+        </p>
         <p>
             <strong>Estado:</strong>
             <span th:switch="${incidencia.estado}">
@@ -19,7 +22,7 @@
                 <span th:case="2">Resuelta</span>
                 <span th:case="*">Estado Desconocido</span> </span>
         </p>
-        </div>
+    </div>
 
     <hr>
 
@@ -35,14 +38,15 @@
 
         <div>
             <label for="tecnicoSelect">Seleccionar Técnico:</label>
-            <select id="tecnicoSelect" name="tecnicoId" required> <option value="">-- Seleccione un técnico --</option>
-                <option th:each="tecnico : ${tecnicos}"
-                        th:value="${tecnico.id}"
-                        th:text="${tecnico.nombre}">
+            <select id="tecnicoSelect" name="tecnicoid" required>
+                <option value="">-- Seleccione un técnico --</option>
+                <option th:each="tecnico : ${tecnicos}" th:value="${tecnico.id}"
+                    th:text="${tecnico.nombre} + ' (' + ${tecnico.id} + ')'">
                     Nombre del Técnico
                 </option>
             </select>
         </div>
+
 
         <br>
 
@@ -57,4 +61,5 @@
     <a href="/inicio">Volver al Inicio</a>
 
 </body>
+
 </html>

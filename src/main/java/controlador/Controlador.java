@@ -228,7 +228,7 @@ public class Controlador {
     @PostMapping("/admin/asignar-incidencia/elegirTecnico")
     public String procesarAsignacionTecnico(
             @RequestParam("incidenciaId") Integer incidenciaId,
-            @RequestParam("tecnicoId") String tecnicoId,
+            @RequestParam("tecnicoid") String tecnicoId,
             HttpSession session,
             Model model) {
 
