@@ -15,7 +15,6 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
     public ArrayList<Incidencia> readAll(DAOManager dao) {
         ArrayList<Incidencia> lista = new ArrayList();
         String sentencia = "select * from Incidencias";
-        LocalDate fechaCreacion = null;
         try {
             dao.open();
             PreparedStatement ps = dao.getConn().prepareStatement(sentencia);
@@ -42,7 +41,7 @@ public class DAOIncidenciasSQL implements DAOIncidencia{
     }
 
     @Override
-    public boolean updateTecnico(Incidencia incidencia, int id_tecnico, DAOManager dao) {
+    public boolean updateTecnico(Incidencia incidencia, String id_tecnico, DAOManager dao) {
         try{
             dao.open();
             String sentencia = "UPDATE `Incidencias` SET `id_tecnico` = '" + id_tecnico + "' "

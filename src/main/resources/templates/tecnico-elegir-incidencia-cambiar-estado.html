@@ -2,12 +2,11 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar incidencias</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/tecnico-elegir-incidencia-cambiar-estado.css}">
 </head>
 <body>
-
+    
     <div th:if="${incidencias.isEmpty()}">
         <p>No hay incidencias asignadas.</p>
     </div>
@@ -20,10 +19,7 @@
                     <th>ID</th>
                     <th>Contenido</th>
                     <th>Estado</th>
-                    <th>Fecha Creación</th>
                     <th>Cliente</th>
-                    <th>Técnico Asignado</th>
-                    <th>Descripcion Resolucion</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -45,12 +41,10 @@
 
                     <td th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</td>
 
-                    <td th:text="${incidencia.tecnico != null ? incidencia.tecnico.nombre : 'Sin asignar'}">Nombre del Técnico</td>
-
-                    <td th:text="${#strings.isEmpty(incidencia.descripcionResolucion) ? 'Esta incidencia no ha sido resuelta' : incidencia.descripcionResolucion}">Texto de ejemplo</td>
+                    <td th:text="${incidencia.descripcionResolucion != null ? incidencia.descripcionResolucion : 'N/A'}">Texto de ejemplo</td>
 
                     <td>
-                    <a th:href="@{/tecnico/incidencia/marcar-resuelta(incidenciaId=${incidencia.id})}">Marcar como resuelta</a>
+                    <a th:href="@{/tecnico/incidencia/nuevo-estado(incidenciaId=${incidencia.id})}">Cambiar estado</a>
                 </td>
                 </tr>
             </tbody>

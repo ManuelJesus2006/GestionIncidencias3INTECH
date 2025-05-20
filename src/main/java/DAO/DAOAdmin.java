@@ -3,5 +3,6 @@ package DAO;
 import models.Admin;
 
 public interface DAOAdmin {
-    Admin readAdmin(DAOManager dao);
+    public Admin readAdmin(DAOManager dao);
+    public boolean insertAdmin(DAOManager dao, Admin admin);
 }

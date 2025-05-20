@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface DAOIncidencia {
     public ArrayList<Incidencia> readAll(DAOManager dao);
-    public boolean updateTecnico(Incidencia incidencia, int id_tecnico, DAOManager dao);
+    public boolean updateTecnico(Incidencia incidencia, String id_tecnico, DAOManager dao);
 
     public boolean insert(Incidencia incidencia, DAOManager dao);
 

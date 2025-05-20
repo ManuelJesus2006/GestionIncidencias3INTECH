@@ -29,7 +29,7 @@ public class IncidenciaService {
         return incidenciasSinAsignar;
     }
 
-    public boolean assignTecnicoToIncidencia(Integer incidenciaId, Integer tecnicoId) {
+    public boolean assignTecnicoToIncidencia(Integer incidenciaId, String tecnicoId) {
         return daoIncidencia.updateTecnico(getIncidenciaById(incidenciaId), tecnicoId, dao);
     }
 

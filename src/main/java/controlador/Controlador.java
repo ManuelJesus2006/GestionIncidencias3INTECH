@@ -1,5 +1,7 @@
 package controlador;
 
+import DAO.DAOAdminSQL;
+import DAO.DAOManager;
 import jakarta.servlet.http.HttpSession;
 import models.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class Controlador {
     private final TecnicoService tecnicoService;
     private final ClienteService clienteService;
     private final IncidenciaService incidenciaService;
+    private final DAOManager dao = DAOManager.getSingletonInstance();
 
 
     @Autowired
@@ -27,6 +30,15 @@ public class Controlador {
         this.tecnicoService = tecnicoService;
         this.clienteService = clienteService;
         this.incidenciaService = incidenciaService;
+        mockAdmin();
+    }
+
+    private void mockAdmin() {
+        DAOAdminSQL daoAdmin = new DAOAdminSQL();
+        if (daoAdmin.readAdmin(dao) == null){
+            Admin admin = new Admin("ADM1111","root@root","1234root","ROOT");
+            daoAdmin.insertAdmin(dao, admin);
+        }
     }
 
     //PAGINA LOGIN
@@ -216,7 +228,7 @@ public class Controlador {
     @PostMapping("/admin/asignar-incidencia/elegirTecnico")
     public String procesarAsignacionTecnico(
             @RequestParam("incidenciaId") Integer incidenciaId,
-            @RequestParam("tecnicoId") Integer tecnicoId,
+            @RequestParam("tecnicoId") String tecnicoId,
             HttpSession session,
             Model model) {
 
