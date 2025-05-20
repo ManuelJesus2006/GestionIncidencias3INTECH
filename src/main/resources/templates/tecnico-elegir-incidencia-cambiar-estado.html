@@ -8,7 +8,7 @@
 <body>
     
     <div th:if="${incidencias.isEmpty()}">
-        <p>No hay incidencias asignadas.</p>
+        <p>No hay incidencias asignadas o se han resuelto anteriormente</p>
     </div>
 
     <div th:unless="${incidencias.isEmpty()}">

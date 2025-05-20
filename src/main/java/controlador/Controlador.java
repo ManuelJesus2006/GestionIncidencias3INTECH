@@ -369,7 +369,7 @@ public class Controlador {
 
         Tecnico tecnico = (Tecnico) usuarioAutenticado;
 
-        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadas(tecnico);
+        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadasSinResolver(tecnico);
 
         model.addAttribute("incidencias", incidenciasPendientes);
 
@@ -423,7 +423,7 @@ public class Controlador {
 
         Tecnico tecnico = (Tecnico) usuarioAutenticado;
 
-        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadas(tecnico);
+        ArrayList<Incidencia> incidenciasPendientes = incidenciaService.getIncidenciasAsignadasSinResolver(tecnico);
 
         model.addAttribute("incidencias", incidenciasPendientes);
 

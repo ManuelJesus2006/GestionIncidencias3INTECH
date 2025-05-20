@@ -61,9 +61,19 @@ public class IncidenciaService {
         return incidenciasAsignadasTecnico;
     }
 
+    public ArrayList<Incidencia> getIncidenciasAsignadasSinResolver(Tecnico tecnico){
+        ArrayList<Incidencia> todasIncidencias = getTodasIncidencias();
+        ArrayList<Incidencia> incidenciasAsignadasSinResolverTecnico = new ArrayList<>();
+        for (Incidencia i : todasIncidencias){
+            if (i.getTecnico() != null){
+                if (i.getTecnico().getId().equals(tecnico.getId()) && i.getEstado() != 2) incidenciasAsignadasSinResolverTecnico.add(i);
+            }
+        }
+        return incidenciasAsignadasSinResolverTecnico;
+    }
+
     public void setNuevoEstado(Incidencia incidencia, int estado, String descripcionResolucion) {
-        if (descripcionResolucion != null) daoIncidencia.updateEstadoResuelta(incidencia, estado, descripcionResolucion, dao);
-        else daoIncidencia.updateEstado(incidencia, estado, dao);
+        daoIncidencia.updateEstado(incidencia, estado, dao);
     }
 
     public Incidencia getIncidenciaByIdCliente(int idIncidencia, Cliente cliente) {
