@@ -11,5 +11,5 @@ public interface DAOTecnico {
 
     boolean delete(Tecnico tecnico, DAOManager dao);
 
-    boolean update(Tecnico tecnico, DAOManager dao);
+    boolean update(Tecnico tecnico, String nombre, String correo, String clave, DAOManager dao);
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .button-link {
+            display: block;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Usuarios</h1>
+
+        <a th:href="@{/admin/gestion-usuarios/registrar?tipo=cliente}" class="button-link">Registrar Cliente</a>
+        <a th:href="@{/admin/gestion-usuarios/registrar?tipo=tecnico}" class="button-link">Registrar Técnico</a>
+        <a th:href="@{/admin/gestion-usuarios/baja}" class="button-link">Dar de Baja Usuario</a>
+        <a th:href="@{/admin/gestion-usuarios/modificar}" class="button-link">Modificar Usuario</a>
+
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <br>
+        <a th:href="@{/inicio}">Volver al Panel de Administrador</a>
+    </div>
+</body>
+</html>

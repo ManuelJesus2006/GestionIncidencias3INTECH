@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import models.Cliente;
 
 public class DAOClienteSQL implements DAOCliente {
-    public DAOClienteSQL() {
-    }
-
     public ArrayList<Cliente> readAll(DAOManager dao) {
         ArrayList<Cliente> lista = new ArrayList();
         String sentencia = "select * from Clientes";
@@ -51,10 +48,31 @@ public class DAOClienteSQL implements DAOCliente {
     }
 
     public boolean delete(Cliente cliente, DAOManager dao) {
-        return false;
+        try{
+            dao.open();
+            String sentencia = "DELETE FROM Clientes WHERE `Clientes`.`id` = '" + cliente.getId() + "'";
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
-    public boolean update(Cliente cliente, DAOManager dao) {
-        return false;
+    public boolean update(Cliente cliente, String nombre, String correo, String clave, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "UPDATE `Clientes` SET `nombre` = '" + nombre + "', "
+                    + "`correo` = '" + correo + "', "
+                    + "`clave` = '" + clave + "' "
+                    + "WHERE `Clientes`.`id` = '" + cliente.getId() + "'";
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 }

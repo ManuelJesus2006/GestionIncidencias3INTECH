@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Usuario a Modificar</title>
+    <style>
+        /* ... tus estilos CSS ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Seleccionar Usuario a Modificar</h1>
+
+        <form th:action="@{/admin/gestion-usuarios/modificar/seleccionar}" method="post">
+            <div>
+                <label for="usuarioId">Seleccionar Usuario:</label>
+                <select id="usuarioId" name="usuarioId">
+                    <option value="">Seleccionar usuario</option>
+                    <option th:each="usuario : ${usuarios}"
+                            th:value="${usuario.id}"
+                            th:text="${usuario instanceof T(models.Tecnico) ? 'Tecnico: ' + usuario.nombre + ' (' + usuario.correo + ')' : 'Cliente: ' + usuario.nombre + ' (' + usuario.correo + ')'}">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit">Mostrar Formulario de Modificacion</button>
+        </form>
+
+        <div th:if="${error}" class="message error" th:text="${error}"></div>
+
+        <a th:href="@{/admin/gestion-usuarios}" class="back-link">Volver a Gestion de Usuarios</a>
+    </div>
+</body>
+</html>

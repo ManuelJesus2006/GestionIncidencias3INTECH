@@ -10,5 +10,5 @@ public interface DAOCliente {
 
     boolean delete(Cliente cliente, DAOManager dao);
 
-    boolean update(Cliente cliente, DAOManager dao);
+    boolean update(Cliente cliente, String nombre, String correo, String clave, DAOManager dao);
 }

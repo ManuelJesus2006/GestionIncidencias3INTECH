@@ -55,10 +55,31 @@ public class DAOTecnicoSQL implements DAOTecnico {
     }
 
     public boolean delete(Tecnico tecnico, DAOManager dao) {
-        return false;
+        try{
+            dao.open();
+            String sentencia = "DELETE FROM Tecnico WHERE `Tecnico`.`id` = '" + tecnico.getId() + "'";
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
-    public boolean update(Tecnico tecnico, DAOManager dao) {
-        return false;
+    public boolean update(Tecnico tecnico, String nombre, String correo, String clave, DAOManager dao) {
+        try{
+            dao.open();
+            String sentencia = "UPDATE `Tecnico` SET `nombre` = '" + nombre + "', "
+                    + "`correo` = '" + correo + "', "
+                    + "`clave` = '" + clave + "' "
+                    + "WHERE `Tecnico`.`id` = '" + tecnico.getId() + "'";
+            Statement stmt = dao.getConn().createStatement();
+            stmt.executeUpdate(sentencia);
+            dao.close();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 }

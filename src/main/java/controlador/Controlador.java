@@ -112,24 +112,20 @@ public class Controlador {
         return "redirect:/";
     }
 
-    //ADMIN --> REGISTRAR USUARIOS
+    //ADMIN --> GESTIÓN DE USUARIOS
     @GetMapping("/admin/gestion-usuarios")
-    public String mostrarMenuUsuarios(Model model) {
-        return "admin-eleccion-tipo";
+    public String mostrarMenuGestionUsuarios(Model model) {
+        return "admin-menu-gestion-usuarios"; // Nueva vista para elegir acción
     }
 
-    @PostMapping("/admin/gestion-usuarios/tipo")
-    public String mostrarFormularioDeRegistro(
-            @RequestParam("tipo") String tipo,
-            Model model
-    ) {
-        if (!tipo.equals("cliente") && !tipo.equals("tecnico")) {
+    @GetMapping("/admin/gestion-usuarios/registrar")
+    public String mostrarFormularioRegistro(@RequestParam(value = "tipo", required = false) String tipo, Model model) {
+        if (tipo != null && !tipo.equals("cliente") && !tipo.equals("tecnico")) {
             model.addAttribute("error", "Tipo de usuario no válido");
-            return "admin-eleccion-tipo";
+            return "admin-menu-gestion-usuarios";
         }
-
-        model.addAttribute("tipo", tipo); // Pasamos el tipo al siguiente formulario
-        return "admin-introduccion-datos";
+        model.addAttribute("tipo", tipo);
+        return "admin-introduccion-datos"; // Formulario para registrar
     }
 
     @PostMapping("/admin/gestion-usuarios/registro")
@@ -142,15 +138,136 @@ public class Controlador {
     ) {
         if (tipo.equals("tecnico")) {
             tecnicoService.guardar(correo, clave, nombre);
+            model.addAttribute("mensaje", "Técnico registrado correctamente");
         } else if (tipo.equals("cliente")) {
             clienteService.guardar(correo, clave, nombre);
+            model.addAttribute("mensaje", "Cliente registrado correctamente");
         } else {
             model.addAttribute("error", "Tipo de usuario no válido");
-            return "menu-usuarios";
+            return "admin-menu-gestion-usuarios";
+        }
+        return "registro-exitoso";
+    }
+
+    @GetMapping("/admin/gestion-usuarios/baja")
+    public String mostrarFormularioBaja(Model model) {
+        ArrayList<Object> todosUsuarios = new ArrayList<>();
+        todosUsuarios.addAll(tecnicoService.getAllTecnicos());
+        todosUsuarios.addAll(clienteService.getAllClientes());
+        model.addAttribute("usuarios", todosUsuarios);
+        return "admin-baja-usuario";
+    }
+
+    @PostMapping("/admin/gestion-usuarios/baja/ejecutar")
+    public String darDeBajaUsuario(
+            @RequestParam("usuarioId") String usuarioId, // Cambiamos String a Long
+            Model model
+    ) {
+        boolean bajaExitosa = false;
+        // Intentamos primero con Tecnico
+        if (tecnicoService.existeTecnico(usuarioId)) {
+            bajaExitosa = tecnicoService.darDeBaja(usuarioId);
+            if (bajaExitosa) {
+                model.addAttribute("mensaje", "Técnico dado de baja correctamente");
+            }
+        } else if (clienteService.existeCliente(usuarioId)) { // Si no es técnico, intentamos con Cliente
+            bajaExitosa = clienteService.darDeBaja(usuarioId);
+            if (bajaExitosa) {
+                model.addAttribute("mensaje", "Cliente dado de baja correctamente");
+            }
         }
 
-        model.addAttribute("mensaje", "Usuario registrado correctamente");
-        return "registro-exitoso";
+        if (!bajaExitosa) {
+            model.addAttribute("error", "No se pudo dar de baja al usuario con ID: " + usuarioId);
+        }
+
+        // Recargamos la lista de usuarios para la vista
+        ArrayList<Object> todosUsuarios = new ArrayList<>();
+        todosUsuarios.addAll(tecnicoService.getAllTecnicos());
+        todosUsuarios.addAll(clienteService.getAllClientes());
+        model.addAttribute("usuarios", todosUsuarios);
+
+        return "admin-baja-usuario";
+    }
+
+    @GetMapping("/admin/gestion-usuarios/modificar")
+    public String mostrarFormularioModificar(Model model) {
+        ArrayList<Object> todosUsuarios = new ArrayList<>();
+        todosUsuarios.addAll(tecnicoService.getAllTecnicos());
+        todosUsuarios.addAll(clienteService.getAllClientes());
+        model.addAttribute("usuarios", todosUsuarios);
+        model.addAttribute("usuarioAModificar", null);
+        return "admin-modificar-usuario"; // Modificamos esta vista
+    }
+
+    @PostMapping("/admin/gestion-usuarios/modificar/seleccionar")
+    public String seleccionarUsuarioAModificar(
+            @RequestParam("usuarioId") String usuarioId,
+            Model model
+    ) {
+        Object usuarioAModificar = null;
+        String tipo = null;
+
+        if (tecnicoService.existeTecnico(usuarioId)) {
+            usuarioAModificar = tecnicoService.obtenerPorId(usuarioId);
+            tipo = "tecnico";
+        } else if (clienteService.existeCliente(usuarioId)) {
+            usuarioAModificar = clienteService.obtenerPorId(usuarioId);
+            tipo = "cliente";
+        } else {
+            model.addAttribute("error", "No se encontró el usuario con ID: " + usuarioId);
+            ArrayList<Object> todosUsuarios = new ArrayList<>();
+            todosUsuarios.addAll(tecnicoService.getAllTecnicos());
+            todosUsuarios.addAll(clienteService.getAllClientes());
+            model.addAttribute("usuarios", todosUsuarios);
+            return "admin-modificar-usuario"; // Volvemos a la lista de selección con error
+        }
+
+        model.addAttribute("usuarioAModificar", usuarioAModificar);
+        model.addAttribute("tipo", tipo);
+        model.addAttribute("usuarioSeleccionadoId", usuarioId);
+        return "admin-formulario-modificar-usuario"; // Mostramos el formulario de modificación
+    }
+
+    @PostMapping("/admin/gestion-usuarios/modificar/ejecutar")
+    public String ejecutarModificacionUsuario(
+            @RequestParam("tipo") String tipo,
+            @RequestParam("usuarioId") String usuarioId,
+            @RequestParam(value = "nombre", required = false) String nombre,
+            @RequestParam(value = "correo", required = false) String correo,
+            @RequestParam(value = "clave", required = false) String clave,
+            Model model
+    ) {
+        boolean modificacionExitosa = false;
+
+        if (tipo.equals("tecnico")) {
+            modificacionExitosa = tecnicoService.modificar(usuarioId, nombre, correo, clave);
+            if (modificacionExitosa) {
+                model.addAttribute("mensaje", "Técnico modificado correctamente");
+            } else {
+                model.addAttribute("error", "No se pudo modificar al técnico con ID: " + usuarioId);
+                return "admin-formulario-modificar-usuario"; // Volver al formulario en caso de error
+            }
+        }
+        if (tipo.equals("cliente")) {
+            modificacionExitosa = clienteService.modificar(usuarioId, nombre, correo, clave);
+            if (modificacionExitosa) {
+                model.addAttribute("mensaje", "Cliente modificado correctamente");
+            } else {
+                model.addAttribute("error", "No se pudo modificar al cliente con ID: " + usuarioId);
+                return "admin-formulario-modificar-usuario"; // Volver al formulario en caso de error
+            }
+        }
+        if (!tipo.equals("tecnico") && !tipo.equals("cliente")){
+            model.addAttribute("error", "Tipo de usuario para modificar no válido");
+            return "admin-formulario-modificar-usuario";
+        }
+
+        if (modificacionExitosa) {
+            return "registro-exitoso"; // Redirigir a la página de éxito
+        } else {
+            return "admin-formulario-modificar-usuario"; // Volver al formulario en caso de error
+        }
     }
 
     //ADMIN --> ASIGNAR INCIDENCIA
