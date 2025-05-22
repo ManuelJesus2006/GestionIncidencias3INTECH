@@ -1,5 +1,7 @@
 **WEB GESTIÓN INCIDENCIAS**
 
+Antes de leer la información del readme debes antes descargar los archivos de este repositorio y abrir el manual de usuario para continuar
+
 **RESUMEN USO DE LA APLICACIÓN: La instalación del programa, el enlace de la instalación y sus complementos estan en el manual de usuario en este repositorio**
 
 **Índice de contenidos:**
