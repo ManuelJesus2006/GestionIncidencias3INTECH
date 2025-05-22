@@ -1,13 +1,7 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package models;
 
 import DAO.DAOClienteSQL;
 import DAO.DAOManager;
-import DAO.DAOTecnicoSQL;
 
 public class Cliente {
     private String correo;

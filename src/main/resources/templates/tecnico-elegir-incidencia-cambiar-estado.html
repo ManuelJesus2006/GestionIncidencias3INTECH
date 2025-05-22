@@ -19,7 +19,9 @@
                     <th>ID</th>
                     <th>Contenido</th>
                     <th>Estado</th>
+                    <th>Fecha creación</th>
                     <th>Cliente</th>
+                    <th>Descripcion Resolución</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -41,7 +43,7 @@
 
                     <td th:text="${incidencia.cliente != null ? incidencia.cliente.nombre : 'N/A'}">Nombre del Cliente</td>
 
-                    <td th:text="${incidencia.descripcionResolucion != null ? incidencia.descripcionResolucion : 'N/A'}">Texto de ejemplo</td>
+                    <td th:text="${#strings.isEmpty(incidencia.descripcionResolucion) ? 'Esta incidencia no ha sido resuelta' : incidencia.descripcionResolucion}">Texto de ejemplo</td>
 
                     <td>
                     <a th:href="@{/tecnico/incidencia/nuevo-estado(incidenciaId=${incidencia.id})}">Cambiar estado</a>

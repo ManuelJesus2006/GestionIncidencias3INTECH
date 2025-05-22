@@ -1,13 +1,15 @@
 package DAO;
 
+import Utils.Utils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DAOManager {
     private Connection conn = null;
     private final String URL = "jdbc:mysql://localhost:3306/IncidenciasDB?autoReconnect=true&useSSL=false";
-    private final String USER = "root";
-    private final String PASS = "root";
+    private final String USER = Utils.leerUsuarioBaseDatos();
+    private final String PASS = Utils.leerContraBaseDatos();
     private static DAOManager singleton;
 
     private DAOManager() {
