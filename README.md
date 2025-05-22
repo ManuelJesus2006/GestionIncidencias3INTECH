@@ -274,7 +274,7 @@ dashboard:
 ![image](https://github.com/user-attachments/assets/6d98a923-3e69-43f7-8c71-7143ded19d50)
 
 
-**Ver incidencias asignadas**
+***Ver incidencias asignadas***
 
 La primera funcionalidad del técnico será la de ver sus incidencias
 asignadas por el administrador. Cuando hacemos click en dicha opción,
@@ -283,7 +283,7 @@ aparecerán de forma ordenada:
 ![image](https://github.com/user-attachments/assets/75b87361-be6a-487f-98b0-b2a6c40f5b98)
 
 
-**Marcar la incidencia como resuelta (añadir descripción resolución)**
+***Marcar la incidencia como resuelta (añadir descripción resolución)***
 
 Esta funcionalidad es de las más importantes, el técnico en está opción
 pondrá la incidencia como resuelta y añadirá una descripción de cual erá
@@ -330,7 +330,7 @@ resolución introducida anteriormente:
 ![image](https://github.com/user-attachments/assets/dcd3a4b3-7cce-4997-b91d-033836a1d86b)
 
 
-**Cambiar estado**
+***Cambiar estado***
 
 Hace la misma función que el anterior, solo que se pueden cambiar entre
 estados diferentes (pendiente / en curso y resuelta)
